@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Tool - 服务健康检查工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 60px 0 100px;
+            text-align: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 80px 0;
+            margin-top: -50px;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+            color: #667eea;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            background: #f8f9fa;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .feature-card p {
+            color: #666;
+        }
+
+        /* Code Section */
+        .code-section {
+            background: #1e1e1e;
+            padding: 80px 0;
+            color: white;
+        }
+
+        .code-section h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .terminal {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 0 auto;
+            max-width: 800px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        .terminal-content {
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+
+        .command {
+            color: #4ec9b0;
+        }
+
+        .output {
+            color: #ce9178;
+        }
+
+        .success {
+            color: #6a9955;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: white;
+            padding: 80px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e1e1e;
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .subtitle { font-size: 1em; }
+            .features h2, .code-section h2 { font-size: 2em; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">🚀</div>
+            <h1>Ping Tool</h1>
+            <p class="subtitle">强大的服务健康检查命令行工具</p>
+            <div class="cta-buttons">
+                <a href="https://github.com/yourusername/ping-tool" class="btn btn-primary">立即下载</a>
+                <a href="https://github.com/yourusername/ping-tool" class="btn btn-secondary">查看源码</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="features">
+        <div class="container">
+            <h2>核心特性</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>多协议支持</h3>
+                    <p>支持 HTTP、HTTPS、TCP 多种协议检测，满足各种场景需求</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>实时监控</h3>
+                    <p>持续监控模式，实时显示服务状态和响应时间</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>详细统计</h3>
+                    <p>提供完整的统计数据：成功率、平均响应时间、丢包率</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>彩色输出</h3>
+                    <p>直观的终端彩色显示，让信息一目了然</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>灵活配置</h3>
+                    <p>可自定义超时时间、检测间隔、次数等参数</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>健康评估</h3>
+                    <p>智能评估服务健康状态：优秀、良好、一般、较差</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="code-section">
+        <div class="container">
+            <h2>快速开始</h2>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-button red"></div>
+                    <div class="terminal-button yellow"></div>
+                    <div class="terminal-button green"></div>
+                </div>
+                <div class="terminal-content">
+                    <div><span class="command">$ ping-tool -t baidu.com -c 3</span></div>
+                    <div>&nbsp;</div>
+                    <div><span class="output">=== 服务健康检查工具 ===</span></div>
+                    <div><span class="output">目标: baidu.com</span></div>
+                    <div><span class="output">类型: HTTP</span></div>
+                    <div>&nbsp;</div>
+                    <div><span class="success">[1] 响应来自 baidu.com: 状态=200 时间=45ms</span></div>
+                    <div><span class="success">[2] 响应来自 baidu.com: 状态=200 时间=42ms</span></div>
+                    <div><span class="success">[3] 响应来自 baidu.com: 状态=200 时间=48ms</span></div>
+                    <div>&nbsp;</div>
+                    <div><span class="output">=== 统计信息 ===</span></div>
+                    <div><span class="output">发送: 3, 成功: 3, 失败: 0 (0.0% 丢包)</span></div>
+                    <div><span class="output">平均响应时间: 45ms</span></div>
+                    <div>&nbsp;</div>
+                    <div><span class="success">服务健康状态: 优秀</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>3+</h3>
+                    <p>支持的协议</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>开源免费</p>
+                </div>
+                <div class="stat-item">
+                    <h3>0</h3>
+                    <p>依赖项</p>
+                </div>
+                <div class="stat-item">
+                    <h3>&lt;5MB</h3>
+                    <p>程序大小</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>使用 ❤️ 和 Go 构建</p>
+            <p style="margin-top: 10px;">
+                <a href="https://github.com/yourusername/ping-tool">GitHub</a> | 
+                <a href="https://github.com/yourusername/ping-tool/blob/main/README.md">文档</a> | 
+                <a href="https://github.com/yourusername/ping-tool/releases">下载</a>
+            </p>
+            <p style="margin-top: 20px; opacity: 0.7;">© 2025 Ping Tool. MIT License</p>
+        </div>
+    </footer>
+</body>
+</html>
