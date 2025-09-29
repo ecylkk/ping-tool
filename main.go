@@ -35,7 +35,6 @@ func main() {
 	timeout := flag.Int("timeout", 5, "超时时间(秒)")
 	interval := flag.Int("i", 1, "每次 ping 间隔(秒)")
 	continuous := flag.Bool("continuous", false, "持续 ping (Ctrl+C 停止)")
-	test := flag.String("test", "", "これは何か")
 	//测试
 	flag.Parse()
 
@@ -44,7 +43,6 @@ func main() {
 		flag.Usage()
 		os.Exit(1)
 	}
-
 	printHeader(*target, *pingType)
 
 	var results []PingResult
